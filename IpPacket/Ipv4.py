@@ -14,13 +14,13 @@
     Destination-ip (32 bits)
 
 '''
-
+import re
 
 class Ipv4():
     def CreateIpv4Packet(
             self,
             Identification,
-            flags: int,
+            flags: str,
             fragment_offset,
             ttl :int,
             protocol,
@@ -35,3 +35,13 @@ class Ipv4():
         if ttl > 255:
             raise ValueError("exceed MAX Hop Limit - Max ttl is 255")
         ttl = hex(ttl)
+
+        pattern = r"^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\." \
+                  r"(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\." \
+                  r"(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\." \
+                  r"(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$"
+
+        if not (re.fullmatch(pattern, source_ip)):
+            raise ValueError("incorrect source Ip")
+        if not (re.fullmatch(pattern, destination_ip)):
+            raise ValueError("incorrect destination ip")

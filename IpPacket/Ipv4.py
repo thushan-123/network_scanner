@@ -17,7 +17,7 @@
 import re
 import struct
 
-class Ipv4():
+class Ipv4:
     def checksum(self,data):
         if len(data)%2 :
             data = data + b'\x00'

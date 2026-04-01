@@ -15,8 +15,19 @@
 
 '''
 import re
+import struct
 
 class Ipv4():
+    def checksum(self,data):
+        if len(data)%2 :
+            data = data + b'\x00'
+        s = sum(
+            struct.unpack("!%dH" % (len(data) // 2), data)
+        )
+        s = (s >>16) + (s & 0xffff)
+        s = s+ s>>16
+        return  ~s & 0xffff
+
     def CreateIpv4Packet(
             self,
             Identification,
